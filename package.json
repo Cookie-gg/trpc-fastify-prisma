@@ -1,0 +1,29 @@
+{
+  "name": "trpc-fastify-prisma",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "src/main.ts",
+  "private": true,
+  "workspaces": [
+    "playground"
+  ],
+  "scripts": {
+    "dev": "tsc-watch --onCompilationComplete \"tsc-alias\" --onSuccess \"node dist/main.js\""
+  },
+  "dependencies": {
+    "@fastify/cors": "8.2.1",
+    "@prisma/client": "4.11.0",
+    "@trpc/server": "10.14.1",
+    "fastify": "4.14.1",
+    "superjson": "1.12.2",
+    "trpc-openapi": "^1.1.2",
+    "zod": "3.21.4"
+  },
+  "devDependencies": {
+    "@types/node": "18.15.0",
+    "prisma": "4.11.0",
+    "tsc-alias": "1.8.3",
+    "tsc-watch": "6.0.0",
+    "typescript": "4.9.5"
+  }
+}

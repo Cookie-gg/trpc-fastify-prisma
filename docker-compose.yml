@@ -1,0 +1,32 @@
+version: "3.8"
+name: trpc-fasitfy-prisma
+
+services:
+  mysql:
+    container_name: mysql
+    image: mysql:5.7
+    platform: linux/amd64
+    environment:
+      MYSQL_DATABASE: development
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      TZ: "Asia/Tokyo"
+    ports:
+      - "33306:3306"
+    volumes:
+      - data:/var/lib/mysql
+      - ./db/init:/docker-entrypoint-initdb.d
+  phpmyadmin:
+    container_name: phpmyadmin
+    image: phpmyadmin/phpmyadmin
+    platform: linux/amd64
+    environment:
+      PMA_ARBITRARY: 1
+      PMA_HOSTS: mysql
+      PMA_USER: root
+      PMA_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    ports:
+      - 8080:80
+volumes:
+  data:
