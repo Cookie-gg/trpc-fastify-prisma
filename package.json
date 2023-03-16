@@ -8,6 +8,9 @@
     "playground"
   ],
   "scripts": {
+    "db:start": "docker-compose up -d",
+    "db:stop": "docker-compose down -v",
+    "prisma": "prisma generate && prisma migrate dev --name init",
     "dev": "tsc-watch --onCompilationComplete \"tsc-alias\" --onSuccess \"node dist/main.js\""
   },
   "dependencies": {
