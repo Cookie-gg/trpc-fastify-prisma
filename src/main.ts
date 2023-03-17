@@ -3,24 +3,30 @@ import connectDB from "./libs/prisma";
 import { appRouter } from "./routers/app";
 import { createContext } from "./libs/trpc";
 import { fastifyTRPCPlugin } from "@trpc/server/adapters/fastify";
+import fastifyJwt from "@fastify/jwt";
 import fastifyCors from "@fastify/cors";
+import fastifyCookie from "@fastify/cookie";
 
-const server = fastify({ maxParamLength: 5000 });
+export const f = fastify({ maxParamLength: 5000 });
 
-server.register(fastifyTRPCPlugin, {
+f.register(fastifyTRPCPlugin, {
   prefix: "/trpc",
   trpcOptions: { router: appRouter, createContext },
 });
-
-server.register(fastifyCors, { origin: "*" });
+f.register(fastifyCookie);
+f.register(fastifyJwt, { secret: process.env.JWT_SECRET });
 
 (async () => {
   try {
     await connectDB();
-    await server.listen({ port: 5000 });
-    console.log("✨ Server listening on port 5000...");
+    await f.register(fastifyCors, {
+      origin: ["http://localhost:3000"],
+      credentials: true,
+    });
+    await f.listen({ port: 5000 });
+    console.log("💫 Server listening on port 5000...");
   } catch (err) {
-    server.log.error(err);
+    f.log.error(err);
     process.exit(1);
   }
 })();

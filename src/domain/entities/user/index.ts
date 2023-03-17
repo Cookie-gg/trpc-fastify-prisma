@@ -1,9 +1,11 @@
 import { z } from "zod";
 
 export const zUser = z.object({
-  id: z.number(),
-  name: z.string(),
-  email: z.string(),
+  uid: z.number(),
+  id: z.string(),
+  name: z.string().min(1),
+  email: z.string().email(),
+  password: z.string(),
 });
 
 export type User = z.infer<typeof zUser>;

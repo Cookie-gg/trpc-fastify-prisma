@@ -6,9 +6,7 @@ export const userRouter = t.router({
   create: t.procedure
     .input(userInput.create)
     .mutation(({ input }) => userController.create({ input })),
-  get: t.procedure
-    .input(userInput.get)
-    .query(({ input }) => userController.get({ input })),
+  get: t.procedure.query(({ ctx }) => userController.get({ ctx })),
   getMany: t.procedure.query(() => userController.getMany()),
   update: t.procedure
     .input(userInput.update)
@@ -16,4 +14,7 @@ export const userRouter = t.router({
   delete: t.procedure
     .input(userInput.delete)
     .mutation(({ input }) => userController.delete({ input })),
+  signup: t.procedure
+    .input(userInput.signup)
+    .mutation(({ input, ctx }) => userController.signup({ input, ctx })),
 });

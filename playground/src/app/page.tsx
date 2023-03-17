@@ -1,13 +1,13 @@
 import Image from "next/image";
-import { Inter } from "next/font/google";
-import styles from "./page.module.css";
 import { trpc } from "~/libs/tprc";
+import styles from "./page.module.css";
+import { Inter } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default async function Home() {
-  const user = await trpc.user.getMany.query();
-  console.log(user);
+  const res = await trpc.user.get.query();
+  console.log(res);
 
   return (
     <main className={styles.main}>
