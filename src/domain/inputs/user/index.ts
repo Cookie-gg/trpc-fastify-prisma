@@ -9,14 +9,14 @@ const update = z.object({ param: zUser.pick({ id: true }), body: zUser });
 
 const del = z.object({ param: zUser.pick({ id: true }) });
 
-const signup = z.object({ body: zUser.pick({ email: true, password: true }) });
+const signin = z.object({ body: zUser.pick({ email: true, password: true }) });
 
 export const userInput = {
   create,
   get,
   update,
   delete: del,
-  signup,
+  signin,
 };
 
 export namespace UserInput {
@@ -24,5 +24,5 @@ export namespace UserInput {
   export type Get = z.infer<typeof get>;
   export type Update = z.infer<typeof update>;
   export type Delete = z.infer<typeof del>;
-  export type Signup = z.infer<typeof signup>;
+  export type Signup = z.infer<typeof signin>;
 }

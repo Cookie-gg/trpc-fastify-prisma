@@ -30,17 +30,23 @@ const del = async (id: Prisma.UserWhereUniqueInput["id"]): Promise<User> => {
   return prisma.user.delete({ where: { id } });
 };
 
-const signup = async (
+const signin = async (
   email: string,
   password: string
-): Promise<string | null> => {
+): Promise<{ token: string; refreshToken: string } | null> => {
   const user = await prisma.user.findUnique({ where: { email } });
 
   if (!user || !(await compare(password, user.password))) {
     return null;
   }
 
-  return f.jwt.sign({ id: user.id }, { expiresIn: 60 * 60 * 24 });
+  const token = f.jwt.sign({ id: user.id }, { expiresIn: 60 * 60 * 24 });
+  const refreshToken = f.jwt.sign(
+    { id: user.id },
+    { expiresIn: 60 * 60 * 24 * 14 }
+  );
+
+  return { token, refreshToken };
 };
 
 export const userService = {
@@ -49,5 +55,5 @@ export const userService = {
   getMany,
   update,
   delete: del,
-  signup,
+  signin,
 };

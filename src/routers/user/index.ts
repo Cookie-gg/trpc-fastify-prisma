@@ -14,7 +14,7 @@ export const userRouter = t.router({
   delete: t.procedure
     .input(userInput.delete)
     .mutation(({ input }) => userController.delete({ input })),
-  signup: t.procedure
-    .input(userInput.signup)
-    .mutation(({ input, ctx }) => userController.signup({ input, ctx })),
+  signin: t.procedure
+    .input(userInput.signin)
+    .mutation(({ input }) => userController.signin({ input })),
 });

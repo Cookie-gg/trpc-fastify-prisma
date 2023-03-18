@@ -1,0 +1,19 @@
+.main {
+  /* display: flex; */
+  /* flex-direction: column;
+  justify-content: space-between;
+  align-items: center; */
+  display: grid;
+  place-items: center;
+  padding: 6rem;
+  min-height: 100vh;
+}
+
+.main .form {
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  display: grid;
+  row-gap: 15px;
+}

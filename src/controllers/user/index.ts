@@ -35,28 +35,12 @@ const del = async ({
   return userService.delete(param.id);
 };
 
-const signup = async ({
-  input: { body },
-  ctx,
-}: {
-  input: UserInput.Signup;
-  ctx: Context;
-}) => {
-  const token = await userService.signup(body.email, body.password);
+const signin = async ({ input: { body } }: { input: UserInput.Signup }) => {
+  const res = await userService.signin(body.email, body.password);
 
-  if (!token) {
-    throw new Error("Invalid credentials");
-  }
+  if (!res) throw new Error("Invalid credentials");
 
-  ctx.res.setCookie("token", token, {
-    httpOnly: false,
-    // secure: process.env.NODE_ENV === "production",
-    secure: true,
-    path: "/",
-    sameSite: "none",
-  });
-
-  return { token };
+  return res;
 };
 
 export const userController = {
@@ -65,5 +49,5 @@ export const userController = {
   getMany,
   update,
   delete: del,
-  signup,
+  signin,
 };
