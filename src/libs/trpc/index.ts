@@ -19,9 +19,11 @@ export const createContext = async ({
     return { req, res, user };
   } catch {}
   try {
-    [req.headers[JWT_HEADER_NAME]].flat()[0] = [
+    // If the user is not authenticated, try to authenticate with the refresh token
+    req.headers[JWT_HEADER_NAME] = [
       req.headers[JWT_REFRESH_HEADER_NAME],
     ].flat()[0];
+
     const { id } = await req.jwtVerify<Pick<User, "id">>();
     const user = await userService.get(id);
 
