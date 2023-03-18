@@ -4,8 +4,8 @@ import { userService } from "~/services/user";
 import { initTRPC, inferAsyncReturnType, TRPCError } from "@trpc/server";
 import { CreateFastifyContextOptions } from "@trpc/server/adapters/fastify";
 
-export const JWT_REFRESH_HEADER_NAME = "x-refresh-token";
-export const JWT_HEADER_NAME = "authorization";
+const JWT_REFRESH_HEADER_NAME = "x-refresh-token";
+const JWT_HEADER_NAME = "authorization";
 
 export const createContext = async ({
   req,
@@ -33,9 +33,18 @@ export const createContext = async ({
   }
 };
 
+export async function createContextInner() {
+  return {};
+}
+
 export type Context = inferAsyncReturnType<typeof createContext>;
+export type InnerContext = inferAsyncReturnType<typeof createContextInner>;
 
 export const t = initTRPC.context<Context>().create({
+  transformer: superjson,
+});
+
+export const testT = initTRPC.context<InnerContext>().create({
   transformer: superjson,
 });
 

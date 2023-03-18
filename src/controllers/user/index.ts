@@ -20,24 +20,21 @@ const getMany = async (): Promise<User[]> => {
 };
 
 const update = async ({
-  input: { param, body },
+  input: { body },
+  ctx,
 }: {
   input: UserInput.Update;
+  ctx: Context;
 }): Promise<User> => {
-  return userService.update(param.id, body);
+  return userService.update(ctx.user?.id, body);
 };
 
-const del = async ({
-  input: { param },
-}: {
-  input: UserInput.Delete;
-}): Promise<User> => {
-  return userService.delete(param.id);
+const del = async ({ ctx }: { ctx: Context }): Promise<User> => {
+  return userService.delete(ctx.user?.id);
 };
 
 const signin = async ({ input: { body } }: { input: UserInput.Signup }) => {
   const res = await userService.signin(body.email, body.password);
-
   if (!res) throw new Error("Invalid credentials");
 
   return res;
